@@ -1,1 +1,15 @@
-https://stackoverflow.com/questions/61404008/how-to-build-up-terraform-local-file-dynamically
+# https://stackoverflow.com/questions/61404008/how-to-build-up-terraform-local-file-dynamically
+#   goal is to create only one file that contains all of the IP addresses.
+#  This is very close to one of the examples that are in the Terraform String Templates https://www.terraform.io/docs/configuration/expressions.html#string-templates 
+#  documentation at the time I write this, which we can adapt to your goal like this:
+
+resource "local_file" "ec2_iini" {
+  filename = "ec2.ini"
+  content = <<-EOT
+    %{ for ip in aws_instance.instance.*.private_ip ~}
+    ${ip} ansible_ssh_user=ec2-user
+    %{ endfor ~}
+  EOT
+}
+
+
