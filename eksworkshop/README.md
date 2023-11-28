@@ -1,8 +1,8 @@
- #AWS Elastic Kubernetes Service (EKS) workshop!
+# AWS Elastic Kubernetes Service (EKS) workshop!
 
 [Workshop terraform ](https://www.eksworkshop.com/docs/introduction/setup/your-account/using-terraform)
 
-##Introduction
+## Introduction
 
 Welcome to the AWS Elastic Kubernetes Service (EKS) workshop!
 
