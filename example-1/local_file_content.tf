@@ -4,6 +4,14 @@ locals   {
     count = 12
 }
 
+data "local_file" "configfile" {
+  filename="/tmp/selfcreated"
+}
+
+output "configconentent" {
+  value=data.local_file.configfile.content
+}
+
 resource "local_file" "mylocalfile" {
   filename = local.filename
   content = <<-EOF

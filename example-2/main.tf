@@ -1,6 +1,8 @@
 # Creates EC2 instance along with creation of key pair. Runs remote-exec
 resource "aws_instance" "webserver" {
-  ami           = "ami-01c647eace872fc02"
+  count = 3
+  // ami           = try(var.ami,[]) ? var.ami : "ami-041feb57c611358bd" // "ami-01c647eace872fc02" AWS Amazon x86_64
+  ami = try(var.ami,"ami-041feb57c611358bd")
   instance_type ="t2.micro"
   # https://developer.hashicorp.com/terraform/language/resources/provisioners/remote-exec 
   provisioner "remote-exec" {
@@ -41,7 +43,12 @@ resource "tls_private_key" "rsa" {
 
 resource "local_file" "tf-key" {
     content  = tls_private_key.rsa.private_key_pem
-    filename = "tf-key-pair"
+    filename = "~/.ssh/tf-key-pair"
+    file_permission = "0600"
+    // directory_permission = "0644"
+    // provisioner "local-exec" {
+    // command = "chmod 644 ./.ssh/tf-key-pair"
+    // }
 }
 
 output "server_public_ipv4" {
